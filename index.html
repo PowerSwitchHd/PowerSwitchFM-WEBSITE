@@ -227,10 +227,258 @@ body {
     
 
 
-  <audio controls autoplay style="width:100%; max-width:700px; display:block; margin:20px auto;">
-    <source src="https://c23.radioboss.fm:8298/stream" type="audio/mpeg">
-    Your browser does not support the audio player.
-  </audio>
+  <style>
+.power-player {
+    width: 92%;
+    max-width: 550px;
+    margin: 30px auto;
+    padding: 30px 15px;
+    box-sizing: border-box;
+    background: linear-gradient(145deg, #080817, #17172c);
+    border: 2px solid #25255c;
+    border-radius: 25px;
+    box-shadow: 0 0 20px rgba(0,100,255,0.35);
+    text-align: center;
+    font-family: Arial, sans-serif;
+    color: white;
+}
+
+.player-brand {
+    font-size: 25px;
+    font-weight: 900;
+    letter-spacing: 3px;
+    text-shadow: 0 0 12px #0066ff;
+    margin-bottom: 10px;
+}
+
+.live-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #ff3333;
+    font-size: 13px;
+    font-weight: bold;
+    letter-spacing: 3px;
+    margin: 15px;
+}
+
+.live-dot {
+    width: 10px;
+    height: 10px;
+    background: red;
+    border-radius: 50%;
+    box-shadow: 0 0 12px red;
+    animation: livePulse 1s infinite alternate;
+}
+
+@keyframes livePulse {
+    to { opacity: 0.3; }
+}
+
+.sound-wave {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    height: 65px;
+    margin: 15px auto;
+}
+
+.sound-wave span {
+    width: 5px;
+    height: 15px;
+    border-radius: 5px;
+    background: linear-gradient(red, #0066ff);
+}
+
+.power-player.playing .sound-wave span {
+    animation: waveMove 0.7s infinite alternate;
+}
+
+.sound-wave span:nth-child(2n) {
+    animation-delay: 0.2s;
+}
+
+.sound-wave span:nth-child(3n) {
+    animation-delay: 0.4s;
+}
+
+@keyframes waveMove {
+    from { height: 10px; }
+    to { height: 55px; }
+}
+
+.play-button {
+    width: 85px;
+    height: 85px;
+    border-radius: 50%;
+    border: 3px solid #1685ff;
+    background: linear-gradient(145deg, #101050, #050515);
+    color: white;
+    font-size: 32px;
+    cursor: pointer;
+    box-shadow: 0 0 15px #0066ff,
+                0 0 30px rgba(255,0,0,0.4);
+    transition: 0.3s;
+}
+
+.play-button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 30px #0088ff;
+}
+
+.player-status {
+    margin: 15px;
+    font-size: 13px;
+    color: #aaa;
+}
+
+.volume-area {
+    margin: 20px auto 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+}
+
+.volume-area input {
+    width: 140px;
+    accent-color: #1685ff;
+}
+
+.player-footer {
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: #777;
+    margin-top: 25px;
+}
+</style>
+
+<div class="power-player" id="powerPlayer">
+
+    <div class="player-brand">
+        POWERSWITCH FM
+    </div>
+
+    <div class="live-indicator">
+        <span class="live-dot"></span>
+        LIVE RADIO
+    </div>
+
+    <div class="sound-wave">
+        <span></span><span></span>
+        <span></span><span></span>
+        <span></span><span></span>
+        <span></span><span></span>
+        <span></span><span></span>
+        <span></span><span></span>
+        <span></span><span></span>
+        <span></span>
+    </div>
+
+    <button class="play-button"
+            id="powerPlay"
+            aria-label="Play radio">
+        ▶
+    </button>
+
+    <div class="player-status" id="playerStatus">
+        CLICK PLAY TO LISTEN
+    </div>
+
+    <div class="volume-area">
+        <span>🔊</span>
+        <input type="range"
+               id="powerVolume"
+               min="0"
+               max="1"
+               step="0.01"
+               value="0.8"
+               aria-label="Volume">
+    </div>
+
+    <div class="player-footer">
+        ONE CARIBBEAN RADIO
+    </div>
+
+    <audio id="powerAudio"
+           preload="none"
+           src="https://c23.radioboss.fm:8298/stream">
+    </audio>
+
+</div>
+
+<script>
+const audio = document.getElementById("powerAudio");
+const button = document.getElementById("powerPlay");
+const status = document.getElementById("playerStatus");
+const player = document.getElementById("powerPlayer");
+const volume = document.getElementById("powerVolume");
+
+audio.volume = 0.8;
+
+button.addEventListener("click", async function() {
+
+    if (audio.paused) {
+
+        status.textContent = "CONNECTING TO LIVE RADIO...";
+
+        try {
+            await audio.play();
+
+            button.textContent = "Ⅱ";
+            button.setAttribute("aria-label", "Pause radio");
+
+            status.textContent = "NOW PLAYING - POWERSWITCH FM";
+
+            player.classList.add("playing");
+
+        } catch (error) {
+
+            status.textContent =
+                "UNABLE TO CONNECT - PLEASE TRY AGAIN";
+
+            player.classList.remove("playing");
+        }
+
+    } else {
+
+        audio.pause();
+
+        button.textContent = "▶";
+        button.setAttribute("aria-label", "Play radio");
+
+        status.textContent = "RADIO PAUSED";
+
+        player.classList.remove("playing");
+    }
+
+});
+
+volume.addEventListener("input", function() {
+    audio.volume = Number(this.value);
+});
+
+audio.addEventListener("playing", function() {
+    status.textContent = "NOW PLAYING - POWERSWITCH FM";
+});
+
+audio.addEventListener("waiting", function() {
+    status.textContent = "BUFFERING...";
+});
+
+audio.addEventListener("error", function() {
+    status.textContent = "STREAM CONNECTION ERROR";
+    button.textContent = "▶";
+    player.classList.remove("playing");
+});
+
+audio.addEventListener("pause", function() {
+    button.textContent = "▶";
+    player.classList.remove("playing");
+});
+
+</script>
   <br>
 
 
