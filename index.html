@@ -496,6 +496,244 @@ window.addEventListener("load", function() {
 });
 
 </script>
+    
+<!-- POWER SWITCH FM - 12 CHANNEL ANIMATED MIXER -->
+
+<style>
+.psfm-mixer {
+    width: 94%;
+    max-width: 650px;
+    margin: 30px auto;
+    padding: 25px 12px;
+    box-sizing: border-box;
+    background: linear-gradient(145deg, #080817, #17172c);
+    border: 2px solid #087cff;
+    border-radius: 18px;
+    box-shadow: 0 0 20px rgba(0,102,255,0.5);
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+.psfm-mixer-title {
+    color: white;
+    font-size: 23px;
+    font-weight: 900;
+    letter-spacing: 3px;
+    text-shadow: 0 0 12px #087cff;
+    margin-bottom: 25px;
+}
+
+.psfm-channels {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: 5px;
+    align-items: end;
+}
+
+.psfm-channel {
+    min-width: 0;
+    text-align: center;
+}
+
+.psfm-track {
+    position: relative;
+    width: 100%;
+    max-width: 27px;
+    height: 125px;
+    margin: auto;
+    background: linear-gradient(90deg, #050510, #292943, #050510);
+    border: 1px solid #555577;
+    border-radius: 5px;
+    box-shadow: inset 0 0 8px black;
+}
+
+.psfm-track::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 5px;
+    bottom: 5px;
+    width: 2px;
+    background: #555577;
+    transform: translateX(-50%);
+}
+
+.psfm-level {
+    position: absolute;
+    bottom: 5px;
+    left: 3px;
+    right: 3px;
+    height: 35%;
+    border-radius: 3px;
+    background: linear-gradient(to top, #ff003c, #087cff);
+    box-shadow: 0 0 9px #087cff;
+    animation: psfmLevel 1.8s ease-in-out infinite alternate;
+}
+
+.psfm-knob {
+    position: absolute;
+    z-index: 2;
+    left: 1px;
+    right: 1px;
+    height: 13px;
+    top: 55%;
+    border-radius: 3px;
+    background: linear-gradient(180deg, #ffffff, #777799, #dddddd);
+    border: 1px solid #ffffff;
+    box-shadow: 0 0 7px #1685ff;
+    animation: psfmFader 2s ease-in-out infinite alternate;
+}
+
+@keyframes psfmFader {
+    from { top: var(--start); }
+    to { top: var(--end); }
+}
+
+@keyframes psfmLevel {
+    from { height: 20%; }
+    to { height: 75%; }
+}
+
+.psfm-channel:nth-child(1) .psfm-knob { --start: 55%; --end: 20%; }
+.psfm-channel:nth-child(2) .psfm-knob { --start: 35%; --end: 65%; }
+.psfm-channel:nth-child(3) .psfm-knob { --start: 65%; --end: 30%; }
+.psfm-channel:nth-child(4) .psfm-knob { --start: 45%; --end: 15%; }
+.psfm-channel:nth-child(5) .psfm-knob { --start: 70%; --end: 35%; }
+.psfm-channel:nth-child(6) .psfm-knob { --start: 30%; --end: 60%; }
+.psfm-channel:nth-child(7) .psfm-knob { --start: 60%; --end: 25%; }
+.psfm-channel:nth-child(8) .psfm-knob { --start: 40%; --end: 70%; }
+.psfm-channel:nth-child(9) .psfm-knob { --start: 65%; --end: 30%; }
+.psfm-channel:nth-child(10) .psfm-knob { --start: 25%; --end: 55%; }
+.psfm-channel:nth-child(11) .psfm-knob { --start: 50%; --end: 15%; }
+.psfm-channel:nth-child(12) .psfm-knob { --start: 70%; --end: 40%; }
+
+.psfm-channel:nth-child(even) .psfm-knob {
+    box-shadow: 0 0 9px red;
+}
+
+.psfm-label {
+    color: #00aaff;
+    font-size: 9px;
+    font-weight: bold;
+    margin-top: 10px;
+    white-space: nowrap;
+}
+
+.psfm-light {
+    width: 6px;
+    height: 6px;
+    margin: 8px auto 0;
+    border-radius: 50%;
+    background: #ff003c;
+    box-shadow: 0 0 10px red;
+    animation: psfmLight 1s infinite alternate;
+}
+
+@keyframes psfmLight {
+    from { opacity: 0.3; }
+    to { opacity: 1; }
+}
+
+.psfm-mixer-footer {
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 3px;
+    margin-top: 25px;
+    text-shadow: 0 0 8px blue;
+}
+</style>
+
+<div class="psfm-mixer">
+
+    <div class="psfm-mixer-title">
+        POWER SWITCH FM
+    </div>
+
+    <div class="psfm-channels">
+
+        <div class="psfm-channel">
+            <div class="psfm-track"><div class="psfm-level"></div><div class="psfm-knob"></div></div>
+            <div class="psfm-label">CH 01</div>
+            <div class="psfm-light"></div>
+        </div>
+
+        <div class="psfm-channel">
+            <div class="psfm-track"><div class="psfm-level"></div><div class="psfm-knob"></div></div>
+            <div class="psfm-label">CH 02</div>
+            <div class="psfm-light"></div>
+        </div>
+
+        <div class="psfm-channel">
+            <div class="psfm-track"><div class="psfm-level"></div><div class="psfm-knob"></div></div>
+            <div class="psfm-label">CH 03</div>
+            <div class="psfm-light"></div>
+        </div>
+
+        <div class="psfm-channel">
+            <div class="psfm-track"><div class="psfm-level"></div><div class="psfm-knob"></div></div>
+            <div class="psfm-label">CH 04</div>
+            <div class="psfm-light"></div>
+        </div>
+
+        <div class="psfm-channel">
+            <div class="psfm-track"><div class="psfm-level"></div><div class="psfm-knob"></div></div>
+            <div class="psfm-label">CH 05</div>
+            <div class="psfm-light"></div>
+        </div>
+
+        <div class="psfm-channel">
+            <div class="psfm-track"><div class="psfm-level"></div><div class="psfm-knob"></div></div>
+            <div class="psfm-label">CH 06</div>
+            <div class="psfm-light"></div>
+        </div>
+
+        <div class="psfm-channel">
+            <div class="psfm-track"><div class="psfm-level"></div><div class="psfm-knob"></div></div>
+            <div class="psfm-label">CH 07</div>
+            <div class="psfm-light"></div>
+        </div>
+
+        <div class="psfm-channel">
+            <div class="psfm-track"><div class="psfm-level"></div><div class="psfm-knob"></div></div>
+            <div class="psfm-label">CH 08</div>
+            <div class="psfm-light"></div>
+        </div>
+
+        <div class="psfm-channel">
+            <div class="psfm-track"><div class="psfm-level"></div><div class="psfm-knob"></div></div>
+            <div class="psfm-label">CH 09</div>
+            <div class="psfm-light"></div>
+        </div>
+
+        <div class="psfm-channel">
+            <div class="psfm-track"><div class="psfm-level"></div><div class="psfm-knob"></div></div>
+            <div class="psfm-label">CH 10</div>
+            <div class="psfm-light"></div>
+        </div>
+
+        <div class="psfm-channel">
+            <div class="psfm-track"><div class="psfm-level"></div><div class="psfm-knob"></div></div>
+            <div class="psfm-label">CH 11</div>
+            <div class="psfm-light"></div>
+        </div>
+
+        <div class="psfm-channel">
+            <div class="psfm-track"><div class="psfm-level"></div><div class="psfm-knob"></div></div>
+            <div class="psfm-label">CH 12</div>
+            <div class="psfm-light"></div>
+        </div>
+
+    </div>
+
+    <div class="psfm-mixer-footer">
+        LIVE STUDIO MIXING
+    </div>
+
+</div>
+
+<!-- END POWER SWITCH FM MIXER -->
+
   <br>
     
 <style>
