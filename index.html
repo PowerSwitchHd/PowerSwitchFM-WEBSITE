@@ -1,3 +1,54 @@
+
+<!-- POWER SWITCH FM TOP IMAGE NEON FRAME -->
+
+<style>
+.psfm-top-frame {
+    width: 96%;
+    max-width: 700px;
+    margin: 25px auto;
+    padding: 7px;
+    box-sizing: border-box;
+    border-radius: 18px;
+    background: linear-gradient(
+        135deg,
+        #087cff,
+        #111122,
+        #ff003c,
+        #087cff
+    );
+    background-size: 300% 300%;
+    animation: psfmBorder 5s ease infinite,
+               psfmGlow 2s ease-in-out infinite alternate;
+}
+
+.psfm-top-frame img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    border: 2px solid #ffffff;
+}
+
+@keyframes psfmBorder {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes psfmGlow {
+    from {
+        box-shadow: 0 0 10px #087cff,
+                    0 0 15px #ff003c;
+    }
+    to {
+        box-shadow: 0 0 25px #087cff,
+                    0 0 30px #ff003c;
+    }
+}
+</style>
+
+<!-- END POWER SWITCH FM TOP IMAGE FRAME -->
+
 <style>
 h1 {
     text-align: center;
