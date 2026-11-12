@@ -478,6 +478,23 @@ audio.addEventListener("pause", function() {
     player.classList.remove("playing");
 });
 
+// TRY AUTOMATIC RADIO PLAYBACK
+window.addEventListener("load", function() {
+    const audio = document.getElementById("powerAudio");
+    const button = document.getElementById("powerPlay");
+    const status = document.getElementById("playerStatus");
+    const player = document.getElementById("powerPlayer");
+
+    audio.play().then(function() {
+        button.textContent = "Ⅱ";
+        button.setAttribute("aria-label", "Pause radio");
+        status.textContent = "NOW PLAYING - POWERSWITCH FM";
+        player.classList.add("playing");
+    }).catch(function() {
+        status.textContent = "TAP PLAY TO LISTEN LIVE";
+    });
+});
+
 </script>
   <br>
     
