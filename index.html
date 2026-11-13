@@ -831,6 +831,126 @@ window.addEventListener("load", function() {
 </div>
 
 <!-- END POWER SWITCH FM MIXER -->
+    
+<style>
+/* POWERSWITCH FM - ROTATING EARTH */
+.psfm-earth-section {
+  width: 100%;
+  padding: 35px 10px;
+  box-sizing: border-box;
+  text-align: center;
+  background: radial-gradient(ellipse, #071b38 0%, #020611 72%);
+  overflow: hidden;
+  color: white;
+  font-family: Arial, sans-serif;
+}
+
+.psfm-earth-title {
+  color: #58d9ff;
+  font-size: 23px;
+  font-weight: bold;
+  letter-spacing: 3px;
+  text-shadow: 0 0 12px #00aaff;
+  margin-bottom: 25px;
+}
+
+.psfm-earth-stage {
+  position: relative;
+  width: 290px;
+  height: 290px;
+  max-width: 85vw;
+  max-height: 85vw;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.psfm-earth {
+  width: 78%;
+  height: 78%;
+  border-radius: 50%;
+  background-color: #063b73;
+  background-image:
+    radial-gradient(circle at 30% 30%,
+      transparent 35%, rgba(0,0,0,.8) 100%),
+    url("https://commons.wikimedia.org/wiki/Special:FilePath/Land_shallow_topo_2048.jpg");
+  background-size: 100% 100%, 200% 100%;
+  background-repeat: no-repeat, repeat-x;
+  background-position: center, 0% 50%;
+  box-shadow:
+    0 0 15px #00bfff,
+    0 0 35px #0077ff,
+    inset -18px -8px 30px rgba(0,0,0,.7);
+  animation: psfm-earth-spin 32s linear infinite;
+  position: relative;
+  z-index: 2;
+}
+
+.psfm-orbit {
+  position: absolute;
+  width: 100%;
+  height: 36%;
+  border: 2px solid rgba(0, 190, 255, .8);
+  border-radius: 50%;
+  box-shadow: 0 0 12px #00aaff;
+  transform: rotate(-25deg);
+  z-index: 3;
+  pointer-events: none;
+}
+
+.psfm-orbit-two {
+  position: absolute;
+  width: 105%;
+  height: 48%;
+  border: 1px solid rgba(255, 40, 80, .7);
+  border-radius: 50%;
+  transform: rotate(35deg);
+  box-shadow: 0 0 12px #ff1744;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.psfm-earth-caption {
+  margin-top: 22px;
+  color: #d9f5ff;
+  font-size: 13px;
+  letter-spacing: 3px;
+  text-shadow: 0 0 8px #009dff;
+}
+
+@keyframes psfm-earth-spin {
+  from {
+    background-position: center, 0% 50%;
+  }
+  to {
+    background-position: center, 200% 50%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .psfm-earth {
+    animation: none;
+  }
+}
+</style>
+
+<section class="psfm-earth-section">
+  <div class="psfm-earth-title">
+    POWER SWITCH FM
+  </div>
+
+  <div class="psfm-earth-stage">
+    <div class="psfm-orbit-two"></div>
+    <div class="psfm-earth"></div>
+    <div class="psfm-orbit"></div>
+  </div>
+
+  <div class="psfm-earth-caption">
+    BROADCASTING MUSIC TO THE WORLD
+  </div>
+</section>
+
 
   <br>
     
