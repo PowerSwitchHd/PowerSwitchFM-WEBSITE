@@ -474,11 +474,13 @@ body {
     </div>
 
     <audio id="powerAudio"
-           preload="none"
-           src="https://c23.radioboss.fm:8298/stream">
-    </audio>
+       preload="none"
+       crossorigin="anonymous"
+       src="https://c23.radioboss.fm:8298/stream">
+</audio>
 
 </div>
+
 
 <script>
 const audio = document.getElementById("powerAudio");
@@ -487,7 +489,38 @@ const status = document.getElementById("playerStatus");
 const player = document.getElementById("powerPlayer");
 const volume = document.getElementById("powerVolume");
 
-audio.volume = 0.8;
+let audioContext = null;
+let gainNode = null;
+let sourceNode = null;
+
+audio.volume = 1;
+
+async function setupAudioBoost() {
+    if (!audioContext) {
+        const AudioContextClass =
+            window.AudioContext || window.webkitAudioContext;
+
+        if (!AudioContextClass) {
+            throw new Error("Audio amplification is not supported");
+        }
+
+        audioContext = new AudioContextClass();
+
+        sourceNode =
+            audioContext.createMediaElementSource(audio);
+
+        gainNode = audioContext.createGain();
+
+        sourceNode.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+
+        gainNode.gain.value = Number(volume.value);
+    }
+
+    if (audioContext.state === "suspended") {
+        await audioContext.resume();
+    }
+}
 
 button.addEventListener("click", async function() {
 
@@ -496,12 +529,14 @@ button.addEventListener("click", async function() {
         status.textContent = "CONNECTING TO LIVE RADIO...";
 
         try {
+            await setupAudioBoost();
             await audio.play();
 
             button.textContent = "Ⅱ";
             button.setAttribute("aria-label", "Pause radio");
 
-            status.textContent = "NOW PLAYING - POWERSWITCH FM";
+            status.textContent =
+                "NOW PLAYING - POWERSWITCH FM";
 
             player.classList.add("playing");
 
@@ -524,11 +559,17 @@ button.addEventListener("click", async function() {
 
         player.classList.remove("playing");
     }
-
 });
 
 volume.addEventListener("input", function() {
-    audio.volume = Number(this.value);
+
+    if (gainNode && audioContext) {
+        gainNode.gain.setTargetAtTime(
+            Number(volume.value),
+            audioContext.currentTime,
+            0.03
+        );
+    }
 });
 
 audio.addEventListener("playing", function() {
@@ -549,23 +590,8 @@ audio.addEventListener("pause", function() {
     button.textContent = "▶";
     player.classList.remove("playing");
 });
+</script>
 
-// TRY AUTOMATIC RADIO PLAYBACK
-window.addEventListener("load", function() {
-    const audio = document.getElementById("powerAudio");
-    const button = document.getElementById("powerPlay");
-    const status = document.getElementById("playerStatus");
-    const player = document.getElementById("powerPlayer");
-
-    audio.play().then(function() {
-        button.textContent = "Ⅱ";
-        button.setAttribute("aria-label", "Pause radio");
-        status.textContent = "NOW PLAYING - POWERSWITCH FM";
-        player.classList.add("playing");
-    }).catch(function() {
-        status.textContent = "TAP PLAY TO LISTEN LIVE";
-    });
-});
 
 </script>
 
